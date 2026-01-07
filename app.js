@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+const { v4: uuidv4 } = require('uuid');
+
 // Ejs setup
 app.set('view engine', 'ejs');
 
@@ -11,14 +13,17 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 let posts = [{
+    id: uuidv4(),
     username: "bishaldsrijal",
     title: "My first post"
 },
 {
+    id: uuidv4(),
     username: "john_doe",
     title: "Hello World!"
 },
 {
+    id: uuidv4(),
     username: "jane_smith",
     title: "Express is great!"
 }]
@@ -26,25 +31,26 @@ let posts = [{
 // post api
 app.post("/posts", (req, res) => {
     const { username, title } = req.body;
-    posts.push({username, title})
+    const id = uuidv4();
+    posts.push({ id, username, title })
     res.redirect("/");
 })
 
 // get post form
-app.get("/posts/new", (req, res)=>{
+app.get("/posts/new", (req, res) => {
     res.render("new.ejs")
 })
 
 // get api
-app.get("/", (req,res)=>{
-    res.render("index.ejs", {data: posts})
+app.get("/", (req, res) => {
+    res.render("index.ejs", { data: posts })
 })
 
 // Get single post
 app.get("/posts/:id", (req, res) => {
     const id = req.params.id;
-    const post = posts[id];
-    res.render("post.ejs", {data: post, id: id})
+    const post = posts.find(p => p.id ===id)
+    res.render("post.ejs", { data: post, id: id })
 })
 
 // delete post
@@ -58,14 +64,14 @@ app.get("/posts", (req, res) => {
 app.get("/posts/edit/:id", (req, res) => {
     const id = req.params.id;
     const post = posts[id];
-    res.render("edit.ejs", {data: post, id: id})
+    res.render("edit.ejs", { data: post, id: id })
 })
 
 // update post
-app.post("/posts/update/:id", (req,res)=>{
+app.post("/posts/update/:id", (req, res) => {
     const id = req.params.id
-    const {username, title}= req.body;
-    posts[id]= {username, title};
+    const { username, title } = req.body;
+    posts[id] = { username, title };
     res.redirect("/");
 })
 
