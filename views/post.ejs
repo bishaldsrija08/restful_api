@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single post</title>
+</head>
+<body>
+    <h1><%= data.title %></h1>
+    <p>@<%= data.username %></p>
+    <p><%= data.content %></p>
+    <a href="/posts/edit/<%= id %>">Edit Post</a>
+    <a href="/">Back to all posts</a>
+</body>
+</html>
