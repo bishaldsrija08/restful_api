@@ -12,7 +12,7 @@
       <% data.forEach((post) => {%>
       <p>@<%= post.username %></p>
       <a href="/posts/<%= post.id %>"><p><%= post.title %></p></a>
-      <form action="/posts/?id=<%= post.id %>" method="get">
+      <form action="/posts/<%= post.id%>?_method=DELETE" method="post">
         <button>Delete-</button>
       </form>
       <% }) %>
